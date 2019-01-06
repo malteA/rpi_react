@@ -1,15 +1,18 @@
 {
   "name": "rpi_react",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
     "server": "nodemon server.js"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "nodemon": "^1.18.9",
-    "rpio": "^1.0.11"
+    "rpio": "^1.0.11",
+    "ws": "^6.1.2"
   }
 }

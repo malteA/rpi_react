@@ -1,31 +1,19 @@
-const koa = require("koa");
-const koaRouter = require("koa-router");
-const rpio = require("rpio");
+const Koa = require("koa");
+const cors = require("@koa/cors");
 
-const app = new koa();
-const router = new koaRouter();
+const app = new Koa();
+const router = require("./routes");
 
-// setup pins
-rpio.open(7, rpio.INPUT);
+app.use(cors());
+app.use(router.routes())
+app.use(router.allowedMethods());
 
-router.get("/", (ctx, next) => {
-    ctx.body = "rpio";
-});
+const server = app.listen(4000);
+const wsEmitter = require("./wsEmitter").wsEmitter(server);
 
-router.get("/pin", (ctx, next) => {
-    ctx.body = "rpio";
-});
 
-router.get("/pin/:id", (ctx, next) => {
-    try {
-        ctx.body = `Pin ${ctx.params.id} is currently ${rpio.read(ctx.params.id) ? "high" : "low"}`;
-    } catch(err) {
-        console.log(`Error Accessing Pin ${ctx.params.id}`);
-    }
-});
-
-app
-.use(router.routes())
-.use(router.allowedMethods());
-
-app.listen(3000);
+const test = require("./wsEmitter").wsEmitter();
+test.emit("event");
+test.emit("event");
+test.emit("event");
+test.emit("event");
